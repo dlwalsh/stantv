@@ -1,0 +1,30 @@
+.header {
+  align-items: flex-end;
+  display: flex;
+  gap: 90px;
+}
+
+.header__nav {
+  font-size: 1.25rem;
+  font-weight: bold;
+  letter-spacing: 0.03em;
+  padding-bottom: 8px;
+}
+
+.header__nav-list {
+  display: flex;
+  gap: 40px;
+}
+
+.header__nav-link {
+  border-radius: 2px;
+  color: var(--color-gray);
+}
+
+.header__nav-link.active {
+  color: var(--color-white);
+}
+
+.header__nav-link:hover {
+  color: var(--color-stan-blue);
+}

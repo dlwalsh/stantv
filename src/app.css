@@ -19,6 +19,23 @@ html {
 body {
   background-color: var(--color-black);
   color: var(--color-white);
-  font: 1rem/1.4 "Open Sans", sans-serif;
+  font:
+    1rem/1.4 'Open Sans',
+    sans-serif;
   min-height: 100%;
+}
+
+a {
+  color: var(--color-white);
+  text-decoration: none;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+:focus {
+  outline: 2px solid var(--color-stan-blue);
+  outline-offset: 2px;
 }
