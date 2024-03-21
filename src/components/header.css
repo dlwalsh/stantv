@@ -1,14 +1,19 @@
 .header {
   align-items: flex-end;
   display: flex;
-  gap: 90px;
+  gap: 80px;
+}
+
+.header__logo-image {
+  height: auto;
+  width: 160px;
 }
 
 .header__nav {
   font-size: 1.25rem;
   font-weight: bold;
-  letter-spacing: 0.03em;
   padding-bottom: 8px;
+  white-space: nowrap;
 }
 
 .header__nav-list {
@@ -27,4 +32,18 @@
 
 .header__nav-link:hover {
   color: var(--color-stan-blue);
+}
+
+@media (min-width: 900px) {
+  .header {
+    gap: 100px;
+  }
+
+  .header__logo-image {
+    width: 180px;
+  }
+
+  .header__nav {
+    font-size: 1.5rem;
+  }
 }

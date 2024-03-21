@@ -4,7 +4,7 @@ import './header.css';
 const Header = () => (
   <header className="header">
     <div className="header__logo">
-      <img alt="Stan logo" src="/logo.svg" height={48} width={160} />
+      <img className="header__logo-image" alt="Stan logo" src="/logo.svg" />
     </div>
     <nav className="header__nav">
       <ul className="header__nav-list">
