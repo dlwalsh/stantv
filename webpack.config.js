@@ -11,6 +11,7 @@ module.exports = (env, argv) => {
     output: {
       filename: 'app.js',
       path: path.resolve(__dirname, 'dist'),
+      publicPath: '/',
     },
     resolve: {
       extensions: ['.ts', '.tsx', '.js'],
@@ -42,5 +43,9 @@ module.exports = (env, argv) => {
         React: 'react',
       }),
     ],
+    devServer: {
+      port: 4321,
+      historyApiFallback: true,
+    },
   };
 };
