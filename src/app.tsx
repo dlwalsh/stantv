@@ -4,6 +4,7 @@ import { PageOutline } from './components/page-outline';
 import { LandingPage } from './components/landing-page';
 import { ProgramPage } from './components/program-page';
 import { ProgramsDataOutlet } from './components/programs-data-outlet';
+import { Error } from './components/error';
 import './app.css';
 
 const App = () => {
@@ -11,7 +12,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<PageOutline />}>
-          <Route element={<ProgramsDataOutlet />} errorElement={<div />}>
+          <Route element={<ProgramsDataOutlet />}>
             <Route index element={<LandingPage />} />
             <Route
               path="tv-shows"
@@ -22,6 +23,7 @@ const App = () => {
               element={<LandingPage programType="movie" />}
             />
             <Route path="programs/:programId" element={<ProgramPage />} />
+            <Route path="*" element={<Error />} />
           </Route>
         </Route>
       </Routes>

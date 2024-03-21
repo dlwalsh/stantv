@@ -1,3 +1,7 @@
 .page-outline {
   padding: 36px 60px;
 }
+
+.page-outline__main {
+  padding: 48px 0 24px;
+}

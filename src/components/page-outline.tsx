@@ -6,7 +6,7 @@ const PageOutline = () => {
   return (
     <article className="page-outline">
       <Header />
-      <main>
+      <main className="page-outline__main">
         <Outlet />
       </main>
     </article>
