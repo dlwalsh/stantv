@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import { PageOutline } from './components/page-outline';
-import { HomePage } from './components/home-page';
+import { LandingPage } from './components/landing-page';
 import { ProgramPage } from './components/program-page';
 import { ProgramsDataOutlet } from './components/programs-data-outlet';
 import './app.css';
@@ -12,7 +12,15 @@ const App = () => {
       <Routes>
         <Route path="/" element={<PageOutline />}>
           <Route element={<ProgramsDataOutlet />} errorElement={<div />}>
-            <Route index element={<HomePage />} />
+            <Route index element={<LandingPage />} />
+            <Route
+              path="tv-shows"
+              element={<LandingPage programType="series" />}
+            />
+            <Route
+              path="movies"
+              element={<LandingPage programType="movie" />}
+            />
             <Route path="programs/:programId" element={<ProgramPage />} />
           </Route>
         </Route>

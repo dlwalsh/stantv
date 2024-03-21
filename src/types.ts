@@ -2,7 +2,7 @@ type Program = {
   id: number;
   title: string;
   description: string;
-  type: string;
+  type: 'movie' | 'series';
   image: string;
   rating: string;
   genre: string;

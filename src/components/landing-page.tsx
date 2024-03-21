@@ -1,13 +1,19 @@
 import { Link } from 'react-router-dom';
 import {
-  selectPrograms,
   selectProgramsLoadingState,
+  selectProgramsByType,
 } from '../selectors/programs-selectors';
 import { useAppSelector } from '../hooks/store-hooks';
 import type { Program } from '../types';
 
-const HomePage = () => {
-  const programs: Program[] = useAppSelector((state) => selectPrograms(state));
+type LandingPageProps = {
+  programType?: Program['type'];
+};
+
+const LandingPage = ({ programType }: LandingPageProps) => {
+  const programs: Program[] = useAppSelector((state) =>
+    selectProgramsByType(state, programType),
+  );
   const loadingState = useAppSelector((state) =>
     selectProgramsLoadingState(state),
   );
@@ -29,4 +35,4 @@ const HomePage = () => {
   );
 };
 
-export { HomePage };
+export { LandingPage };
