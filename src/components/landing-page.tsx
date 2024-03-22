@@ -10,6 +10,11 @@ type LandingPageProps = {
   programType?: Program['type'];
 };
 
+const typeToRouteMap = new Map([
+  ['series', 'tv-shows'],
+  ['movie', 'movies'],
+]);
+
 const LandingPage = ({ programType }: LandingPageProps) => {
   const programs: Program[] = useAppSelector((state) =>
     selectProgramsByType(state, programType),
@@ -26,7 +31,15 @@ const LandingPage = ({ programType }: LandingPageProps) => {
         <ul>
           {programs.map((program) => (
             <li key={program.id}>
-              <Link to={`programs/${program.id}`}>{program.title}</Link>
+              <Link
+                to={
+                  programType
+                    ? `${program.id}`
+                    : `${typeToRouteMap.get(program.type)}/${program.id}`
+                }
+              >
+                {program.title}
+              </Link>
             </li>
           ))}
         </ul>
