@@ -1,0 +1,28 @@
+.carousel {
+  --carousel-gap: 12px;
+  display: flex;
+  gap: var(--carousel-gap);
+  overflow: hidden;
+  padding: 8px;
+}
+
+.carousel__item {
+  aspect-ratio: 2 / 3;
+  flex: 0 0 17%;
+}
+
+.carousel__item--skeleton {
+  background-color: var(--color-dark-gray);
+}
+
+.carousel__item:focus {
+  border-radius: 1px;
+  outline: 3px solid var(--color-stan-blue);
+  outline-offset: 4px;
+}
+
+@media (min-width: 900px) {
+  .carousel {
+    --carousel-gap: 16px;
+  }
+}

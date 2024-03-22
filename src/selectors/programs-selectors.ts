@@ -3,13 +3,14 @@ import { programsAdapter } from '../adapters/programs-adapter';
 import type { RootState } from '../store';
 import type { Program } from '../types';
 
-const { selectAll: selectPrograms, selectById: selectProgramById } =
-  programsAdapter.getSelectors((state: RootState) => state.programs);
+const { selectAll, selectIds, selectById } = programsAdapter.getSelectors(
+  (state: RootState) => state.programs,
+);
 
 const selectProgramsLoadingState = (state: RootState) => state.programs.loading;
 
 const selectProgramsByType = createSelector(
-  selectPrograms,
+  selectAll,
   (state, type) => type,
   (programs: Program[], type: Program['type'] | undefined) => {
     if (!type) {
@@ -21,8 +22,9 @@ const selectProgramsByType = createSelector(
 );
 
 export {
-  selectPrograms,
-  selectProgramById,
+  selectAll as selectPrograms,
+  selectById as selectProgramById,
+  selectIds as selectProgramIds,
   selectProgramsLoadingState,
   selectProgramsByType,
 };

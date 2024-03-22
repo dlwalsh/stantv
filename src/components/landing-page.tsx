@@ -1,5 +1,8 @@
 import { Link } from 'react-router-dom';
+import { Carousel } from './carousel';
+import { ProgramSlide } from './program-slide';
 import {
+  selectProgramIds,
   selectProgramsLoadingState,
   selectProgramsByType,
 } from '../selectors/programs-selectors';
@@ -10,11 +13,6 @@ type LandingPageProps = {
   programType?: Program['type'];
 };
 
-const typeToRouteMap = new Map([
-  ['series', 'tv-shows'],
-  ['movie', 'movies'],
-]);
-
 const LandingPage = ({ programType }: LandingPageProps) => {
   const programs: Program[] = useAppSelector((state) =>
     selectProgramsByType(state, programType),
@@ -22,29 +20,21 @@ const LandingPage = ({ programType }: LandingPageProps) => {
   const loadingState = useAppSelector((state) =>
     selectProgramsLoadingState(state),
   );
+  const programIds: Array<number> = useAppSelector((state) =>
+    selectProgramIds(state),
+  );
 
   return (
-    <>
-      {loadingState === 'pending' ? (
-        <div>Loading...</div>
-      ) : (
-        <ul>
-          {programs.map((program) => (
-            <li key={program.id}>
-              <Link
-                to={
-                  programType
-                    ? `${program.id}`
-                    : `${typeToRouteMap.get(program.type)}/${program.id}`
-                }
-              >
-                {program.title}
-              </Link>
-            </li>
-          ))}
-        </ul>
+    <Carousel
+      autoFocus
+      aria-label="Programs"
+      displayMax={6}
+      itemIds={programIds}
+      loading={loadingState === 'pending'}
+      renderItem={(id, attrs) => (
+        <ProgramSlide key={id} id={id as number} {...attrs} />
       )}
-    </>
+    />
   );
 };
 
