@@ -7,31 +7,39 @@ import type { Program } from '../types';
 import './program-slide.css';
 
 type ProgramSlideProps = {
-  'aria-selected': boolean;
-  className: string;
+  'aria-selected'?: boolean;
+  className?: string;
+  image: string;
   id: number;
   onKeyDown?: (event: KeyboardEvent<HTMLElement>) => void;
-  tabIndex: number;
+  programType: 'movie' | 'series';
+  tabIndex?: number;
+  title: string;
 };
 
 const typeToRoute = new Map([
-  ['series', 'tv-shows'],
   ['movie', 'movies'],
+  ['series', 'tv-shows'],
 ]);
 
 const ProgramSlide = forwardRef<HTMLAnchorElement, ProgramSlideProps>(
   (
-    { 'aria-selected': ariaSelected, className, id, onKeyDown, tabIndex },
+    {
+      'aria-selected': ariaSelected,
+      className,
+      id,
+      image,
+      onKeyDown,
+      programType,
+      tabIndex,
+      title,
+    },
     ref,
   ) => {
-    const program: Program = useAppSelector((state) =>
-      selectProgramById(state, id),
-    );
-
     return (
       <Link
         ref={ref}
-        to={`/${typeToRoute.get(program.type)}/${id}`}
+        to={`/${typeToRoute.get(programType)}/${id}`}
         aria-selected={ariaSelected}
         className={className}
         onKeyDown={onKeyDown}
@@ -39,8 +47,8 @@ const ProgramSlide = forwardRef<HTMLAnchorElement, ProgramSlideProps>(
       >
         <img
           className="program-slide__image"
-          src={program.image}
-          alt={`${program.title} cover image`}
+          src={image}
+          alt={`${title} cover image`}
         />
       </Link>
     );

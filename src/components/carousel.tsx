@@ -11,28 +11,28 @@ type CarouselItemProps = {
   tabIndex: number;
 };
 
-type CarouselProps = {
+type CarouselProps<T> = {
   'aria-label': string;
   autoFocus?: boolean;
   displayMax: number;
-  itemIds: Array<number | string>;
+  items: T[];
   loading: boolean;
-  renderItem: (id: number | string, attrs: CarouselItemProps) => ReactNode;
+  renderItem: (item: T, attrs: CarouselItemProps) => ReactNode;
 };
 
-const Carousel = ({
+const Carousel = <T,>({
   'aria-label': ariaLabel,
   autoFocus = false,
   displayMax,
-  itemIds,
+  items,
   loading,
   renderItem,
-}: CarouselProps) => {
+}: CarouselProps<T>) => {
   const mountedRef = useRef<boolean>(false);
   const selectedItemRef = useRef<HTMLAnchorElement>(null);
-  const { displayIds, handleKeyDown, selectedId } = useCarousel({
+  const { displayItems, handleKeyDown, selectedItem } = useCarousel({
     displayMax,
-    itemIds,
+    items,
   });
 
   // only focus on mount if autoFocus is true
@@ -42,7 +42,7 @@ const Carousel = ({
       selectedItemRef.current?.focus();
       mountedRef.current = true;
     }
-  }, [autoFocus, loading, selectedId]);
+  }, [autoFocus, loading, selectedItem]);
 
   return (
     <section
@@ -59,13 +59,13 @@ const Carousel = ({
                 className="carousel__item carousel__item--skeleton"
               />
             ))
-        : displayIds.map((id) =>
-            renderItem(id, {
-              'aria-selected': id === selectedId,
+        : displayItems.map((item) =>
+            renderItem(item, {
+              'aria-selected': item === selectedItem,
               className: 'carousel__item',
-              onKeyDown: id === selectedId ? handleKeyDown : undefined,
-              ref: id === selectedId ? selectedItemRef : undefined,
-              tabIndex: id === selectedId ? 0 : -1,
+              onKeyDown: item === selectedItem ? handleKeyDown : undefined,
+              ref: item === selectedItem ? selectedItemRef : undefined,
+              tabIndex: item === selectedItem ? 0 : -1,
             }),
           )}
     </section>

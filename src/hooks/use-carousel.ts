@@ -4,20 +4,20 @@ import type { KeyboardEvent } from 'react';
 
 type CarouselHookParams = {
   displayMax: number;
-  itemIds: Array<number | string>;
+  items: any[];
 };
 
 function useCarousel({
   displayMax: displayMaxParam,
-  itemIds,
+  items,
 }: CarouselHookParams) {
   const [{ selectedIndex, displayBegin }, setValues] = useState<{
     selectedIndex: number;
     displayBegin: number;
   }>({ selectedIndex: 0, displayBegin: 0 });
 
-  const selectedId = itemIds[selectedIndex];
-  const total = itemIds.length;
+  const selectedItem = items[selectedIndex];
+  const total = items.length;
   const displayMax = Math.min(displayMaxParam, total);
 
   const goBack = useCallback(() => {
@@ -34,7 +34,7 @@ function useCarousel({
             : vals.displayBegin,
       };
     });
-  }, [itemIds, total]);
+  }, [items, total]);
 
   const goForward = useCallback(() => {
     // increment the selected index
@@ -66,28 +66,28 @@ function useCarousel({
     [goBack, goForward],
   );
 
-  const displayIds = useMemo(() => {
+  const displayItems = useMemo(() => {
     const displayEnd = displayBegin + displayMax;
 
     if (displayEnd >= total) {
       return [
-        ...itemIds.slice(displayBegin),
-        ...itemIds.slice(0, displayEnd % total),
+        ...items.slice(displayBegin),
+        ...items.slice(0, displayEnd % total),
       ];
     }
 
-    return itemIds.slice(displayBegin, displayEnd);
-  }, [displayBegin, displayMax, itemIds, total]);
+    return items.slice(displayBegin, displayEnd);
+  }, [displayBegin, displayMax, items, total]);
 
   // reset selected index when items change
   useEffect(() => {
     setValues({ selectedIndex: 0, displayBegin: 0 });
-  }, [itemIds]);
+  }, [items]);
 
   return {
-    displayIds,
+    displayItems,
     handleKeyDown,
-    selectedId,
+    selectedItem,
     selectedIndex,
   };
 }

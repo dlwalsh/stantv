@@ -1,10 +1,8 @@
-import { Link } from 'react-router-dom';
 import { Carousel } from './carousel';
 import { ProgramSlide } from './program-slide';
 import {
-  selectProgramIds,
-  selectProgramsLoadingState,
   selectProgramsByType,
+  selectProgramsLoadingState,
 } from '../selectors/programs-selectors';
 import { useAppSelector } from '../hooks/store-hooks';
 import type { Program } from '../types';
@@ -14,14 +12,11 @@ type LandingPageProps = {
 };
 
 const LandingPage = ({ programType }: LandingPageProps) => {
-  const programs: Program[] = useAppSelector((state) =>
-    selectProgramsByType(state, programType),
-  );
   const loadingState = useAppSelector((state) =>
     selectProgramsLoadingState(state),
   );
-  const programIds: Array<number> = useAppSelector((state) =>
-    selectProgramIds(state),
+  const programs: Program[] = useAppSelector((state) =>
+    selectProgramsByType(state, programType),
   );
 
   return (
@@ -29,10 +24,17 @@ const LandingPage = ({ programType }: LandingPageProps) => {
       autoFocus
       aria-label="Programs"
       displayMax={6}
-      itemIds={programIds}
+      items={programs}
       loading={loadingState === 'pending'}
-      renderItem={(id, attrs) => (
-        <ProgramSlide key={id} id={id as number} {...attrs} />
+      renderItem={(item: Program, attrs) => (
+        <ProgramSlide
+          key={item.id}
+          {...attrs}
+          id={item.id}
+          image={item.image}
+          programType={item.type}
+          title={item.title}
+        />
       )}
     />
   );

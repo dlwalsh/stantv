@@ -25,6 +25,6 @@ export {
   selectAll as selectPrograms,
   selectById as selectProgramById,
   selectIds as selectProgramIds,
-  selectProgramsLoadingState,
   selectProgramsByType,
+  selectProgramsLoadingState,
 };
