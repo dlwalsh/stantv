@@ -17,7 +17,7 @@ const PageContainer = () => {
     return () => {
       document.removeEventListener('keydown', keyDownListener);
     };
-  }, []);
+  }, [navigate]);
 
   return (
     <article className="page-container">

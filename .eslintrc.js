@@ -9,14 +9,13 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
     'prettier',
-    'jest',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint', 'react', 'react-hooks', 'prettier'],
+  plugins: ['@typescript-eslint', 'react', 'react-hooks', 'prettier', 'jest'],
   settings: {
     'import/resolver': {
       typescript: {},

@@ -14,7 +14,7 @@ const ProgramsDataOutlet = () => {
 
   useEffect(() => {
     dispatch(fetchPrograms());
-  }, []);
+  }, [dispatch]);
 
   if (loadingState === 'error') {
     return <Error />;

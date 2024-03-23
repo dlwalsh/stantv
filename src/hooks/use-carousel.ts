@@ -2,15 +2,15 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { decrement, increment } from '../utils/number-utils';
 import type { KeyboardEvent } from 'react';
 
-type CarouselHookParams = {
+type CarouselHookParams<T> = {
   displayMax: number;
-  items: any[];
+  items: T[];
 };
 
-function useCarousel({
+function useCarousel<T>({
   displayMax: displayMaxParam,
   items,
-}: CarouselHookParams) {
+}: CarouselHookParams<T>) {
   const [{ selectedIndex, displayBegin }, setValues] = useState<{
     selectedIndex: number;
     displayBegin: number;
@@ -34,7 +34,7 @@ function useCarousel({
             : vals.displayBegin,
       };
     });
-  }, [items, total]);
+  }, [total]);
 
   const goForward = useCallback(() => {
     // increment the selected index
