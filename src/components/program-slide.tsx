@@ -1,46 +1,15 @@
-import { forwardRef } from 'react';
 import { Link } from 'react-router-dom';
-import type { ForwardedRef, KeyboardEvent } from 'react';
 import './program-slide.css';
 
 type ProgramSlideProps = {
-  'aria-selected'?: boolean;
-  className?: string;
+  href: string;
   image: string;
-  id: number;
-  onKeyDown?: (event: KeyboardEvent<HTMLElement>) => void;
-  programType: 'movie' | 'series';
-  tabIndex?: number;
   title: string;
 };
 
-const typeToRoute = new Map([
-  ['movie', 'movies'],
-  ['series', 'tv-shows'],
-]);
-
-const ProgramSlideImpl = (
-  {
-    'aria-selected': ariaSelected,
-    className,
-    id,
-    image,
-    onKeyDown,
-    programType,
-    tabIndex,
-    title,
-  }: ProgramSlideProps,
-  ref: ForwardedRef<HTMLAnchorElement>,
-) => {
+const ProgramSlide = ({ href, image, title }: ProgramSlideProps) => {
   return (
-    <Link
-      ref={ref}
-      to={`/${typeToRoute.get(programType)}/${id}`}
-      aria-selected={ariaSelected}
-      className={className}
-      onKeyDown={onKeyDown}
-      tabIndex={tabIndex}
-    >
+    <Link to={href} tabIndex={-1}>
       <img
         className="program-slide__image"
         src={image}
@@ -49,7 +18,5 @@ const ProgramSlideImpl = (
     </Link>
   );
 };
-
-const ProgramSlide = forwardRef(ProgramSlideImpl);
 
 export { ProgramSlide };

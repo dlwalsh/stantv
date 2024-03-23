@@ -1,74 +1,74 @@
 import { useEffect, useRef } from 'react';
 import { useCarousel } from '../hooks/use-carousel';
-import type { KeyboardEvent, ReactNode, RefObject } from 'react';
+import type { ReactNode } from 'react';
 import './carousel.css';
-
-type CarouselItemProps = {
-  'aria-selected': boolean;
-  className: string;
-  onKeyDown?: (event: KeyboardEvent<HTMLElement>) => void;
-  ref?: RefObject<HTMLAnchorElement>;
-  tabIndex: number;
-};
 
 type CarouselProps<T> = {
   'aria-label': string;
   autoFocus?: boolean;
   displayMax: number;
+  itemKey: (item: T) => string | number;
   items: T[];
-  loading: boolean;
-  renderItem: (item: T, attrs: CarouselItemProps) => ReactNode;
+  loading?: boolean;
+  onSelect: (item: T) => void;
+  renderItem: (item: T) => ReactNode;
 };
 
 const Carousel = <T,>({
   'aria-label': ariaLabel,
   autoFocus = false,
   displayMax,
+  itemKey,
   items,
-  loading,
+  loading = false,
+  onSelect,
   renderItem,
 }: CarouselProps<T>) => {
-  const mountedRef = useRef<boolean>(false);
-  const selectedItemRef = useRef<HTMLAnchorElement>(null);
+  const carouselRef = useRef<HTMLUListElement>(null);
   const { displayItems, handleKeyDown, selectedItem } = useCarousel({
     displayMax,
     items,
+    onSelect,
   });
 
-  // only focus on mount if autoFocus is true
-  // otherwise, focus every time selectedId changes
   useEffect(() => {
-    if (!loading && (autoFocus || mountedRef.current)) {
-      selectedItemRef.current?.focus();
-      mountedRef.current = true;
+    if (autoFocus) {
+      carouselRef.current?.focus();
     }
-  }, [autoFocus, loading, selectedItem]);
+  }, [autoFocus]);
 
   return (
-    <section
-      aria-label={ariaLabel}
-      aria-roledescription="carousel"
-      className="carousel"
-    >
-      {loading
-        ? Array(displayMax)
-            .fill(undefined)
-            .map((x, index) => (
-              <div
-                key={index}
-                className="carousel__item carousel__item--skeleton"
-              />
-            ))
-        : displayItems.map((item) =>
-            renderItem(item, {
-              'aria-selected': item === selectedItem,
-              className: 'carousel__item',
-              onKeyDown: item === selectedItem ? handleKeyDown : undefined,
-              ref: item === selectedItem ? selectedItemRef : undefined,
-              tabIndex: item === selectedItem ? 0 : -1,
-            }),
-          )}
-    </section>
+    <div className="carousel">
+      <ul
+        ref={carouselRef}
+        aria-label={ariaLabel}
+        aria-roledescription="carousel"
+        className="carousel__list"
+        onKeyDown={handleKeyDown}
+        role="listbox"
+        tabIndex={0}
+      >
+        {loading
+          ? Array(displayMax)
+              .fill(undefined)
+              .map((x, index) => (
+                <li
+                  key={index}
+                  className="carousel__item carousel__item--skeleton"
+                />
+              ))
+          : displayItems.map((item) => (
+              <li
+                key={itemKey(item)}
+                aria-selected={item === selectedItem}
+                className="carousel__item"
+                role="option"
+              >
+                {renderItem(item)}
+              </li>
+            ))}
+      </ul>
+    </div>
   );
 };
 

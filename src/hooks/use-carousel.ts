@@ -5,11 +5,13 @@ import type { KeyboardEvent } from 'react';
 type CarouselHookParams<T> = {
   displayMax: number;
   items: T[];
+  onSelect: (item: T) => void;
 };
 
 function useCarousel<T>({
   displayMax: displayMaxParam,
   items,
+  onSelect,
 }: CarouselHookParams<T>) {
   const [{ selectedIndex, displayBegin }, setValues] = useState<{
     selectedIndex: number;
@@ -61,9 +63,12 @@ function useCarousel<T>({
       } else if (event.key === 'ArrowRight') {
         event.preventDefault();
         goForward();
+      } else if (event.key === 'Enter') {
+        event.preventDefault();
+        onSelect(selectedItem);
       }
     },
-    [goBack, goForward],
+    [goBack, goForward, onSelect, selectedItem],
   );
 
   const displayItems = useMemo(() => {

@@ -1,9 +1,16 @@
 .carousel {
   --carousel-gap: 12px;
+  overflow: clip;
+  overflow-clip-margin: 8px;
+}
+
+.carousel__list {
   display: flex;
   gap: var(--carousel-gap);
-  overflow: hidden;
-  padding: 8px;
+}
+
+.carousel__list:focus {
+  outline: 0;
 }
 
 .carousel__item {
@@ -15,7 +22,7 @@
   background-color: var(--color-dark-gray);
 }
 
-.carousel__item:focus {
+.carousel__list:focus .carousel__item[aria-selected='true'] {
   border-radius: 1px;
   outline: 3px solid var(--color-stan-blue);
   outline-offset: 4px;

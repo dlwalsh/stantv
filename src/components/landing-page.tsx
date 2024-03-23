@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router';
 import { Carousel } from './carousel';
 import { ProgramSlide } from './program-slide';
 import {
@@ -5,6 +6,7 @@ import {
   selectProgramsLoadingState,
 } from '../selectors/programs-selectors';
 import { useAppSelector } from '../hooks/store-hooks';
+import { programLink } from '../utils/program-utils';
 import type { Program } from '../types';
 
 type LandingPageProps = {
@@ -12,6 +14,7 @@ type LandingPageProps = {
 };
 
 const LandingPage = ({ programType }: LandingPageProps) => {
+  const navigate = useNavigate();
   const loadingState = useAppSelector((state) =>
     selectProgramsLoadingState(state),
   );
@@ -24,15 +27,16 @@ const LandingPage = ({ programType }: LandingPageProps) => {
       autoFocus
       aria-label="Programs"
       displayMax={6}
+      itemKey={(item: Program) => item.id}
       items={programs}
       loading={loadingState === 'pending'}
-      renderItem={(item: Program, attrs) => (
+      onSelect={(item: Program) => {
+        navigate(programLink(item));
+      }}
+      renderItem={(item: Program) => (
         <ProgramSlide
-          key={item.id}
-          {...attrs}
-          id={item.id}
+          href={programLink(item)}
           image={item.image}
-          programType={item.type}
           title={item.title}
         />
       )}
