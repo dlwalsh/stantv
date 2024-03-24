@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import { App } from '../app';
+import { Root } from '../root';
 
 const rootMock = {
   render: jest.fn(),
@@ -18,6 +18,6 @@ describe('Root DOM', () => {
     require('../index.tsx');
 
     expect(createRoot).toHaveBeenCalledWith(root);
-    expect(rootMock.render).toHaveBeenCalledWith(<App />);
+    expect(rootMock.render).toHaveBeenCalledWith(<Root />);
   });
 });

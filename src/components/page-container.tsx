@@ -5,6 +5,7 @@ import './page-container.css';
 
 const PageContainer = () => {
   const navigate = useNavigate();
+
   useEffect(() => {
     const keyDownListener = (event: KeyboardEvent) => {
       if (event.key === 'Backspace') {
