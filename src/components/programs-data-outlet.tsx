@@ -1,12 +1,16 @@
 import { useEffect } from 'react';
-import { Outlet } from 'react-router';
 import { Error } from './error';
 import { useAppDispatch } from '../hooks/store-hooks';
 import { fetchPrograms } from '../actions/fetchPrograms';
 import { selectProgramsLoadingState } from '../selectors/programs-selectors';
 import { useAppSelector } from '../hooks/store-hooks';
+import type { ReactNode } from 'react';
 
-const ProgramsDataOutlet = () => {
+type ProgramsDataOutletProps = {
+  children: ReactNode;
+};
+
+const ProgramsDataOutlet = ({ children }: ProgramsDataOutletProps) => {
   const dispatch = useAppDispatch();
   const loadingState = useAppSelector((state) =>
     selectProgramsLoadingState(state),
@@ -20,7 +24,7 @@ const ProgramsDataOutlet = () => {
     return <Error />;
   }
 
-  return <Outlet />;
+  return children;
 };
 
 export { ProgramsDataOutlet };

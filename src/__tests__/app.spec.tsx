@@ -1,21 +1,58 @@
-import { createMemoryRouter } from 'react-router';
-import { render, waitFor } from '@testing-library/react';
+import { useEffect } from 'react';
+import { Provider as ReduxProvider } from 'react-redux';
+import {
+  Outlet,
+  createMemoryRouter,
+  useLocation,
+  useNavigate,
+} from 'react-router';
+import { fireEvent, render } from '@testing-library/react';
 import { App } from '../app';
 import { routesConfig } from '../routes-config';
 import { store } from '../store';
 import './app.css';
 
-const router = createMemoryRouter(routesConfig, {
-  initialEntries: ['/tv-shows'],
-});
-
 describe('App', () => {
-  it('should render App with data', async () => {
-    await waitFor(() => {
-      render(<App router={router} store={store} />);
-    });
+  it('should go back on Backspaee', async () => {
+    const spyLocation = jest.fn();
+    const LocationListenComponent = () => {
+      const location = useLocation();
+      const navigate = useNavigate();
 
-    // TODO: test data loading only happens once on route transitions
-    expect(true).toEqual(true);
+      useEffect(() => {
+        navigate('/tv-shows');
+      }, [navigate]);
+
+      useEffect(() => {
+        spyLocation(location.pathname);
+      }, [location]);
+
+      return <Outlet />;
+    };
+
+    const router = createMemoryRouter(
+      [
+        {
+          path: '/',
+          element: <LocationListenComponent />,
+          children: routesConfig,
+        },
+      ],
+      {
+        initialEntries: ['/'],
+      },
+    );
+
+    render(
+      <ReduxProvider store={store}>
+        <App router={router} />
+      </ReduxProvider>,
+    );
+
+    fireEvent.keyDown(document, { key: 'Backspace' });
+
+    expect(spyLocation).toHaveBeenNthCalledWith(1, '/');
+    expect(spyLocation).toHaveBeenNthCalledWith(2, '/tv-shows');
+    expect(spyLocation).toHaveBeenNthCalledWith(3, '/');
   });
 });

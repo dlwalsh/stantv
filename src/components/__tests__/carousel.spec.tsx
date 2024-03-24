@@ -21,7 +21,30 @@ describe('Carousel tests', () => {
     expect(carouselElem).toHaveAttribute('aria-label', 'My carousel');
   });
 
-  it('should have focus', () => {
+  it('should render skeleton when loading is true', () => {
+    render(
+      <Carousel
+        aria-label="My carousel"
+        displayMax={6}
+        itemKey={() => 0}
+        items={[]}
+        loading
+        onSelect={() => {}}
+        renderItem={() => null}
+      />,
+    );
+
+    const carouselElem = screen.getByRole('listbox');
+    const options = screen.getAllByRole('option');
+
+    expect(carouselElem).toHaveAttribute('aria-busy', 'true');
+    expect(options).toHaveLength(6);
+    expect(
+      options.every((opt) => opt.getAttribute('aria-disabled') === 'true'),
+    ).toEqual(true);
+  });
+
+  it('should have focus when autoFocus is true', () => {
     render(
       <Carousel
         autoFocus

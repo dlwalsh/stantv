@@ -43,6 +43,7 @@ const Carousel = <T,>({
         ref={carouselRef}
         aria-label={ariaLabel}
         aria-roledescription="carousel"
+        aria-busy={loading}
         className="carousel__list"
         onKeyDown={handleKeyDown}
         role="listbox"
@@ -54,7 +55,9 @@ const Carousel = <T,>({
               .map((x, index) => (
                 <li
                   key={index}
+                  aria-disabled="true"
                   className="carousel__item carousel__item--skeleton"
+                  role="option"
                 />
               ))
           : displayItems.map((item) => (
