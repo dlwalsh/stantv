@@ -7,6 +7,7 @@
 .carousel__list {
   display: flex;
   gap: var(--carousel-gap);
+  margin-right: -100px; /* push final image out of frame */
 }
 
 .carousel__list:focus {
@@ -15,7 +16,7 @@
 
 .carousel__item {
   aspect-ratio: 2 / 3;
-  flex: 0 0 17%;
+  flex: 1 1 0;
 }
 
 .carousel__item--skeleton {
