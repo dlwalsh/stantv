@@ -1,7 +1,17 @@
 .page-container {
-  padding: 36px 60px;
+  padding: 24px 40px;
 }
 
 .page-container__main {
-  padding: 48px 0 24px;
+  padding: 32px 0 16px;
+}
+
+@media (min-width: 900px) {
+  .page-container {
+    padding: 36px 60px;
+  }
+
+  .page-container__main {
+    padding: 48px 0 24px;
+  }
 }

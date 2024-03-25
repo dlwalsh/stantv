@@ -10,7 +10,7 @@ const router = createBrowserRouter(routesConfig);
 
 const Root = () => (
   <ReduxProvider store={store}>
-    <ProgramsDataOutlet>
+    <ProgramsDataOutlet delay={undefined}>
       <App router={router} />
     </ProgramsDataOutlet>
   </ReduxProvider>
