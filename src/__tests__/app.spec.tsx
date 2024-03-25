@@ -12,6 +12,13 @@ import { routesConfig } from '../routes-config';
 import { store } from '../store';
 import './app.css';
 
+global['Request'] = jest.fn().mockImplementation(() => ({
+  signal: {
+    removeEventListener: () => {},
+    addEventListener: () => {},
+  },
+}));
+
 describe('App', () => {
   it('should go back on Backspaee', async () => {
     const spyLocation = jest.fn();
